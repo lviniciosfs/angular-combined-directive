@@ -1,21 +1,24 @@
+import { Submit } from './app/submit';
 import { Component, signal } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
+  imports: [
+    Submit
+  ],
   template: `
-    <h1>Hello from {{ name }}!</h1>
-    <a target="_blank" href="https://angular.dev/overview">
-      Learn more about Angular
-    </a>
-    <button (click)="counter.set(counter() - 1)">--</button>
-    <span> Counter: {{ counter() }} </span>
-    <button (click)="counter.set(counter() + 1)">++</button>
+    <button appSubmit [pending]="isSaving()" (click)="go()">Submit</button>
   `,
 })
 export class App {
   name = 'Angular';
-  counter = signal(0);
+  isSaving = signal(false);
+
+  go(){
+    this.isSaving.set(true);
+    setTimeout(() => {this.isSaving.set(false)}, 5000)
+  }
 }
 
 bootstrapApplication(App);
